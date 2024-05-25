@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -57,6 +56,7 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .email(request.getEmail().toLowerCase())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .isAccountNonLocked(true)
                 .role(Role.USER)
                 .build();
         
