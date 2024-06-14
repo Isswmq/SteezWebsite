@@ -26,8 +26,10 @@ public class SecurityConfiguration {
             .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/admin/**")
                         .hasAuthority(Role.ADMIN.name()))
-                .authorizeHttpRequests(request -> request.requestMatchers("/**")
+                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/register", "/api/v1/auth/authenticate")
                         .permitAll())
+                .authorizeHttpRequests(request -> request.requestMatchers("/**")
+                        .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
