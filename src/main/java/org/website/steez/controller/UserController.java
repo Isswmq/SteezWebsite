@@ -20,4 +20,6 @@ public class UserController {
     public User getUserInfo(@AuthenticationPrincipal User user) {
         return user;
     }
+
+
 }
