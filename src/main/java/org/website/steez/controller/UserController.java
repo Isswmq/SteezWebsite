@@ -20,9 +20,4 @@ public class UserController {
     public User getUserInfo(@AuthenticationPrincipal User user) {
         return user;
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a11a1d9d2deb9b78a212a1331aa254167caa116b
 }
