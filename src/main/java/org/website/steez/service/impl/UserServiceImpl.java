@@ -1,7 +1,9 @@
 package org.website.steez.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.website.steez.dto.UserCreateEditDto;
@@ -9,6 +11,7 @@ import org.website.steez.exception.UserNotFoundException;
 import org.website.steez.model.Role;
 import org.website.steez.model.User;
 import org.website.steez.repository.UserRepository;
+import org.website.steez.security.ChangePasswordRequest;
 import org.website.steez.service.UserService;
 
 import java.util.List;
@@ -16,9 +19,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<User> findByEmail(String email) {
@@ -54,5 +59,19 @@ public class UserServiceImpl implements UserService {
         user.setAccountNonLocked(false);
         userRepository.blockUserById(id, isAccountNonLock);
         return userRepository.findById(id);
+    }
+
+    @Override
+    public void changePassword(ChangePasswordRequest request, User user) {
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalStateException("Wrong password");
+        }
+
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            throw new IllegalStateException("Passwords are not the same");
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 }

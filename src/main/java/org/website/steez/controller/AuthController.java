@@ -22,7 +22,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<Null> register(
+    public ResponseEntity<?> register(
             @RequestBody @Valid RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(authenticationService.register(request))
@@ -30,14 +30,14 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<Null> authenticate(
+    public ResponseEntity<?> authenticate(
             @RequestBody @Valid AuthenticationRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(authenticationService.authenticate(request)).build();
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Null> refresh(
+    public ResponseEntity<?> refresh(
             HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -46,7 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Null> logout(
+    public ResponseEntity<?> logout(
             HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
