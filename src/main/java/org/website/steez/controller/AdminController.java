@@ -30,13 +30,13 @@ public class AdminController {
     @PutMapping("/lock/{id}")
     public User blockUser(@PathVariable Long id) {
         userService.lockOrUnlockUser(id, false);
-        return userService.findById(id).orElseThrow(UserNotFoundException::new);
+        return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/unlock/{id}")
     public User unlockUser(@PathVariable Long id) {
         userService.lockOrUnlockUser(id, true);
-        return userService.findById(id).orElseThrow(UserNotFoundException::new);
+        return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 }

@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY build/libs/steez-0.1.jar /app/steez.jar
 
-EXPOSE 8080
+EXPOSE 808
 
 ENTRYPOINT ["java", "-jar", "steez.jar"]

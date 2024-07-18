@@ -40,6 +40,9 @@ public class User implements UserDetails {
     @Column(name = "isAccountNonLocked", columnDefinition = "boolean default true")
     private boolean isAccountNonLocked;
 
+    @OneToOne(mappedBy = "user")
+    private ForgotPassword forgotPassword;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Optional<User> lockOrUnlockUser(Long id, boolean isAccountNonLock) {
-        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
         user.setAccountNonLocked(false);
         userRepository.blockUserById(id, isAccountNonLock);
         return userRepository.findById(id);

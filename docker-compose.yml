@@ -2,10 +2,11 @@ version: '3.9'
 services:
   steez_postgres:
     image: postgres:16
+    container_name: steez_postgres
     environment:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
-      POSTGRES_DB: steez_db
+      POSTGRES_DB: test_db
     ports:
       - "5432:5432"
     volumes:
@@ -14,18 +15,20 @@ services:
       - steez-network
 
   steez-app:
-    container_name: steez
-    image: steez/project
+    container_name: steez-app
+    image: steez-project
     ports:
       - "8080:8080"
     networks:
       - steez-network
     depends_on:
       - steez_postgres
+
 volumes:
   steez-db:
 
 networks:
   steez-network:
     driver: bridge
+
 
