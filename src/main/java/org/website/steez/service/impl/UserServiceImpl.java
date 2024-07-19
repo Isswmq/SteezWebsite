@@ -52,13 +52,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-    @Transactional
+
     @Override
-    public Optional<User> lockOrUnlockUser(Long id, boolean isAccountNonLock) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        user.setAccountNonLocked(false);
-        userRepository.blockUserById(id, isAccountNonLock);
-        return userRepository.findById(id);
+    @Transactional
+    public void updateAccountLockStatusById(Long id, boolean isAccountNonLock) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException("User with ID " + id + " not found");
+        }
+        userRepository.updateAccountLockStatusById(id, isAccountNonLock);
     }
 
     @Override

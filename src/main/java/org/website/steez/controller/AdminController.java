@@ -26,17 +26,22 @@ public class AdminController {
         return userService.findAll(pageable);
     }
 
+    @GetMapping("/user/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
+    }
+
     //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/lock/{id}")
     public User blockUser(@PathVariable Long id) {
-        userService.lockOrUnlockUser(id, false);
+        userService.updateAccountLockStatusById(id, false);
         return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/unlock/{id}")
     public User unlockUser(@PathVariable Long id) {
-        userService.lockOrUnlockUser(id, true);
+        userService.updateAccountLockStatusById(id, true);
         return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 }

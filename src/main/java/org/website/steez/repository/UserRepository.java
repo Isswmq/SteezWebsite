@@ -19,12 +19,14 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     List<User> findAll(Pageable pageable);
 
+    List<User> findAll();
+
     Optional<User> findById(Long id);
 
     @Modifying
     @Transactional
     @Query("UPDATE User u SET u.isAccountNonLocked = :isAccountNonLocked WHERE u.id = :id")
-    void blockUserById(@Param("id") Long id, @Param("isAccountNonLocked") boolean isAccountNonLocked);
+    void updateAccountLockStatusById(@Param("id") Long id, @Param("isAccountNonLocked") boolean isAccountNonLocked);
 
     @Modifying
     @Transactional

@@ -18,7 +18,7 @@ public interface UserService {
 
     Optional<User> findById(Long id);
 
-    Optional<User> lockOrUnlockUser(Long id, boolean isAccountNonLock);
+    void updateAccountLockStatusById(Long id, boolean isAccountNonLock);
 
     void changePassword(ChangePasswordRequest request, User user);
 }

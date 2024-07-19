@@ -2,7 +2,6 @@ package org.website.steez.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,23 +21,21 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(
-            @RequestBody @Valid RegisterRequest request) {
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(authenticationService.register(request))
                 .build();
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(
-            @RequestBody @Valid AuthenticationRequest request) {
+    public ResponseEntity<?> authenticate(@RequestBody @Valid AuthenticationRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
-                .headers(authenticationService.authenticate(request)).build();
+                .headers(authenticationService.authenticate(request))
+                .build();
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(
-            HttpServletRequest request) {
+    public ResponseEntity<?> refresh(HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .headers(authenticationService.refresh(request))
@@ -46,8 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(
-            HttpServletRequest request) {
+    public ResponseEntity<?> logout(HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .headers(authenticationService.logout(request))
