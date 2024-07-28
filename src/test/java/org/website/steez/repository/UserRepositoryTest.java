@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.website.steez.model.User;
 
 import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
+@ActiveProfiles("test")
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class UserRepositoryTest {
@@ -23,6 +26,7 @@ public class UserRepositoryTest {
     private EntityManager entityManager;
 
     @Test
+    @DirtiesContext
     public void UserRepository_findById_ReturnOptionalUser() {
         User user = User.builder()
                 .id(1L)
@@ -38,6 +42,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void UserRepository_findById_ReturnEmptyOptional() {
         Long userId = 1L;
 
@@ -46,6 +51,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void UserRepository_findAll_ReturnMoreThenOneUser() {
         User user = User.builder().id(1L).username("steez").isAccountNonLocked(true)
                 .build();
@@ -61,6 +67,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void UserRepository_findAll_ReturnEmptyList() {
         List<User> userList = userRepository.findAll();
         assertThat(userList).isEmpty();
@@ -68,6 +75,7 @@ public class UserRepositoryTest {
 
 
     @Test
+    @DirtiesContext
     public void UserRepository_findByEmail_ReturnOptionalUser() {
         User user = User.builder().id(1L).email("steez@gmail.com").isAccountNonLocked(true)
                 .build();
@@ -80,6 +88,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void UserRepository_findByEmail_ReturnEmptyOptional() {
         String email = "steez@gmail.com";
         Optional<User> optionalUser = userRepository.findByEmail(email);
@@ -88,6 +97,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void UserRepository_updateAccountLockStatusById_ReturnBlockedUser() {
         User user = User.builder().id(1L).email("steez@gmail.com").isAccountNonLocked(true)
                 .build();
@@ -105,6 +115,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void UserRepository_updateAccountLockStatusById_ReturnUnblockUser() {
         User user = User.builder().id(1L).email("steez@gmail.com").isAccountNonLocked(false)
                 .build();
@@ -122,6 +133,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void UserRepository_updatePassword_ReturnUserWithNewPassword() {
         User user = User.builder().id(1L).email("steez@gmail.com").isAccountNonLocked(true)
                 .password("weakPassword1337")

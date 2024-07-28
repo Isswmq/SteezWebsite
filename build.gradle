@@ -8,7 +8,7 @@ group = 'org.steez'
 version = '0.1'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = "17"
 }
 
 
@@ -36,6 +36,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-oauth2-client'
+	implementation 'org.springframework.security:spring-security-oauth2-jose'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -48,6 +50,8 @@ dependencies {
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+
 
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'com.h2database:h2:2.3.230'
@@ -64,3 +68,4 @@ jar {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+targetCompatibility = JavaVersion.VERSION_17

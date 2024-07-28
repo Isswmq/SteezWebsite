@@ -32,6 +32,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     private final UserDetailsService userDetailsService;
+    private final CookieUtil cookieUtil;
     
     @Value("${refresh_token_duration}")
     private long refreshTokenDurationMs;
@@ -130,25 +131,11 @@ public class AuthenticationService {
         return logoutCookieHeaders;
     }
 
-    private HttpHeaders createCookieHeaders(String accessToken, String refreshToken, long accessTokenDuration, long refreshTokenDuration) {
-        HttpHeaders headers = new HttpHeaders();
-
-        Stream.of(
-                String.format("%s=%s; Max-Age=%d; Path=/; HttpOnly; Secure", accessTokenName, accessToken, accessTokenDuration),
-                String.format("%s=%s; Max-Age=%d; Path=/; HttpOnly; Secure", refreshTokenName, refreshToken, refreshTokenDuration),
-                String.format("%s=; Max-Age=%d; Path=/; Secure;", accessTokenPresenceName, accessTokenDuration),
-                String.format("%s=; Max-Age=%d; Path=/; Secure;", refreshTokenPresenceName, refreshTokenDuration)
-        ).forEach(s -> headers.add("Set-Cookie", s));
-
-        return headers;
-    }
-
     private HttpHeaders createLogoutCookieHeaders() {
-        return createCookieHeaders(null, null, 0, 0);
+        return cookieUtil.createCookieHeaders(null, null, 0, 0);
     }
 
     private HttpHeaders createCookieHeaders(String accessToken, String refreshToken) {
-        return createCookieHeaders(accessToken, refreshToken, accessTokenDurationMs / 1000, refreshTokenDurationMs / 1000);
+        return cookieUtil.createCookieHeaders(accessToken, refreshToken, accessTokenDurationMs / 1000, refreshTokenDurationMs / 1000);
     }
-    
 }

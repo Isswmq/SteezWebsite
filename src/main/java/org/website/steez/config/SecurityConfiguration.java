@@ -8,17 +8,28 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.website.steez.auth.CustomOAuth2UserService;
 import org.website.steez.auth.JwtAuthenticationFilter;
+import org.website.steez.auth.OAuth2Service;
 import org.website.steez.model.Role;
+import org.website.steez.repository.UserRepository;
+import org.website.steez.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+    private final UserService userService;
+    private final OAuth2Service oAuth2Service;
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,7 +43,26 @@ public class SecurityConfiguration {
                         .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(config -> config
+                        .defaultSuccessUrl("/api/v1/user/cabinet")
+                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+                        .successHandler(oAuth2AuthenticationSuccessHandler()));
         return http.build();
+    }
+
+
+    @Bean
+    public AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof OidcUser) {
+                oAuth2Service.handleOAuth2Login((OidcUser) principal, response);
+            } else if (principal instanceof DefaultOAuth2User defaultOAuth2User) {
+                oAuth2Service.handleOAuth2Login(defaultOAuth2User, response);
+            } else {
+                throw new IllegalArgumentException("Unexpected principal type: " + principal.getClass());
+            }
+        };
     }
 }
