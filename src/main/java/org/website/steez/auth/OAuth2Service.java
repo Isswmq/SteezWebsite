@@ -15,7 +15,6 @@ import org.website.steez.repository.UserRepository;
 import org.website.steez.service.UserService;
 
 import java.io.IOException;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
