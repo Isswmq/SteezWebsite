@@ -29,28 +29,25 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-            .cors(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/admin/**")
-                        .hasAuthority(Role.ADMIN.name()))
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/register", "/api/v1/auth/authenticate")
-                        .permitAll())
-                .authorizeHttpRequests(request -> request.requestMatchers("/**")
-                        .authenticated())
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/api/v1/admin/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers("/api/v1/auth/register", "/api/v1/auth/authenticate").permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .oauth2Login(config -> config
                         .defaultSuccessUrl("/api/v1/user/cabinet")
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(oAuth2AuthenticationSuccessHandler()));
         return http.build();
     }
-
 
     @Bean
     public AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
