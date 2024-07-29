@@ -46,12 +46,6 @@ public class AuthenticationService {
     @Value("${refresh_token_name}")
     private String refreshTokenName;
     
-    @Value("${access_token_presence_name}")
-    private String accessTokenPresenceName;
-    
-    @Value("${refresh_token_presence_name}")
-    private String refreshTokenPresenceName;
-    
     public HttpHeaders register(RegisterRequest request) {
         User userToBeRegistered = User.builder()
                 .username(request.getUsername())

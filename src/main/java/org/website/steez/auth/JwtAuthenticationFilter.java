@@ -18,10 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.website.steez.exception.TokenRefreshException;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -59,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (accessCookie.isEmpty()) {
             System.out.println("No access token cookie found");
-            // Check for refresh token and handle refresh
+
             final Optional<Cookie> refreshCookie = Arrays.stream(request.getCookies())
                     .filter(cookie -> Objects.equals(cookie.getName(), refreshTokenName))
                     .findFirst();
@@ -76,14 +74,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 newHeaders.forEach((key, values) -> values.forEach(value -> response.addHeader(key, value)));
 
-                // Extract new access token from headers
                 String newAccessToken = newHeaders.getFirst(accessTokenName);
                 if (newAccessToken == null) {
                     filterChain.doFilter(request, response);
                     return;
                 }
 
-                // Set new access token in SecurityContext
                 String userEmail = jwtService.extractUsername(newAccessToken);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 

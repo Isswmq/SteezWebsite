@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.website.steez.auth.CustomAuthenticationEntryPoint;
 import org.website.steez.auth.CustomOAuth2UserService;
 import org.website.steez.auth.JwtAuthenticationFilter;
 import org.website.steez.auth.OAuth2Service;
@@ -29,6 +30,7 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,7 +47,8 @@ public class SecurityConfiguration {
                 .oauth2Login(config -> config
                         .defaultSuccessUrl("/api/v1/user/cabinet")
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
-                        .successHandler(oAuth2AuthenticationSuccessHandler()));
+                        .successHandler(oAuth2AuthenticationSuccessHandler()))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(customAuthenticationEntryPoint));
         return http.build();
     }
 
