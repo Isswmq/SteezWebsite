@@ -15,7 +15,6 @@ import org.website.steez.service.EmailService;
 @Slf4j
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
     private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")

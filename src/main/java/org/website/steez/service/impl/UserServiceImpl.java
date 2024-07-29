@@ -26,11 +26,25 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    @Transactional
     public User create(UserCreateEditDto userDto) {
         User user = User.builder()
                 .username(userDto.getUsername())
@@ -43,17 +57,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
-
-    @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
-    }
-
-
-    @Override
     @Transactional
     public void updateAccountLockStatusById(Long id, boolean isAccountNonLock) {
         if (!userRepository.existsById(id)) {
@@ -63,6 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void changePassword(ChangePasswordRequest request, User user) {
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
