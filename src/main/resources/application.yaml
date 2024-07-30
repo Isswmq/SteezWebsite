@@ -4,16 +4,13 @@ spring:
   thymeleaf:
     cache: false
   datasource:
-    url: ${POSTGRES_URL}
+    url: jdbc:postgresql://${HOST}:5432/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 10
-  docker:
-    compose:
-      enabled: false
 
   h2:
     console:
@@ -25,7 +22,7 @@ spring:
         show_sql: true
         format_sql: true
         hbm2ddl:
-          auto: validate
+          auto: create
   security:
     oauth2:
       client:
