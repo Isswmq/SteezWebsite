@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   steez-app:
@@ -26,9 +26,20 @@ services:
       - steez-db:/var/lib/postgresql/data
     networks:
       - steez-network
+  redis:
+    image: redis:7.2-rc-alpine
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - cache:/data
 
 volumes:
   steez-db:
+  cache:
+    driver: local
 
 networks:
   steez-network:

@@ -28,4 +28,5 @@ public class UserController {
         userService.changePassword(request, user);
         return ResponseEntity.ok().build();
     }
+
 }

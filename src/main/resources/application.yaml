@@ -1,4 +1,9 @@
 spring:
+  profiles:
+    active: dev
+  cache:
+    type: redis
+    cache-names: redis-cache
   config:
     import: optional:file:.env[.properties]
   thymeleaf:
@@ -11,6 +16,11 @@ spring:
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 10
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: 6379
+      password: ${REDIS_PASSWORD}
 
   h2:
     console:
@@ -40,7 +50,6 @@ spring:
             client-id: ${OAUTH2_FACEBOOK_CLIENT_ID}
             client-secret: ${OAUTH2_FACEBOOK_CLIENT_SECRET}
             redirectUri: ${OAUTH2_FACEBOOK_REDIRECT_URI}
-
   web:
     resources:
       static-locations: /static

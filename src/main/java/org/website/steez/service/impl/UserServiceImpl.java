@@ -2,6 +2,10 @@ package org.website.steez.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,12 +31,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "UserService::findById", key = "#id")
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "UserService::findByEmail", key = "#email")
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -45,6 +51,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @Caching(put = {
+            @CachePut(value = "UserService::findById", key = "#result.id"),
+            @CachePut(value = "UserService::findByEmail", key = "#result.email")
+    })
     public User create(UserCreateEditDto userDto) {
         User user = User.builder()
                 .username(userDto.getUsername())
@@ -58,6 +68,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "UserService::findById", key = "#id"),
+            @CacheEvict(value = "UserService::findByEmail", key = "#result.email")
+    },
+            put =  @CachePut(value = "UserService::findById", key = "#id"))
     public void updateAccountLockStatusById(Long id, boolean isAccountNonLock) {
         if (!userRepository.existsById(id)) {
             throw new UserNotFoundException("User with ID " + id + " not found");
@@ -67,6 +82,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @Caching(put = {
+            @CachePut(value = "UserService::findById", key = "#user.id"),
+            @CachePut(value = "UserService::findByEmail", key = "#user.email")
+    })
     public void changePassword(ChangePasswordRequest request, User user) {
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
