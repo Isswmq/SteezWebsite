@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.website.steez.exception.UserNotFoundException;
-import org.website.steez.model.User;
+import org.website.steez.model.user.User;
 import org.website.steez.service.UserService;
 
 import java.util.List;

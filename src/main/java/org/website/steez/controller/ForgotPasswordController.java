@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.website.steez.dto.EmailDto;
 import org.website.steez.exception.UserNotFoundException;
 import org.website.steez.model.ForgotPassword;
-import org.website.steez.model.User;
+import org.website.steez.model.user.User;
 import org.website.steez.repository.ForgotPasswordRepository;
 import org.website.steez.repository.UserRepository;
 import org.website.steez.security.ChangeForgotPasswordRequest;

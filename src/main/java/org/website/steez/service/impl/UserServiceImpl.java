@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.website.steez.dto.UserCreateEditDto;
 import org.website.steez.exception.UserNotFoundException;
-import org.website.steez.model.Role;
-import org.website.steez.model.User;
+import org.website.steez.model.user.Role;
+import org.website.steez.model.user.User;
+import org.website.steez.model.user.UserAvatar;
 import org.website.steez.repository.UserRepository;
 import org.website.steez.security.ChangePasswordRequest;
+import org.website.steez.service.UserAvatarService;
 import org.website.steez.service.UserService;
 
 import java.util.List;
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserAvatarService userAvatarService;
 
     @Override
     @Transactional(readOnly = true)
@@ -97,5 +100,15 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(value = "UserService::findById", key = "#id")
+    public void uploadAvatar(Long id, UserAvatar avatar) {
+         User user = findById(id).orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+         String fileName = userAvatarService.upload(avatar);
+         user.setAvatar(fileName);
+         userRepository.save(user);
     }
 }

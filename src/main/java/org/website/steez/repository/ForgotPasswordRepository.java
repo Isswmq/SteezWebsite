@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.website.steez.model.ForgotPassword;
-import org.website.steez.model.User;
+import org.website.steez.model.user.User;
 
 import java.util.Optional;
 

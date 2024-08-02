@@ -1,4 +1,4 @@
-package org.website.steez.model;
+package org.website.steez.model.user;
 
 public enum Role {
     USER, ADMIN

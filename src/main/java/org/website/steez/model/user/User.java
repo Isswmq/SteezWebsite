@@ -1,4 +1,4 @@
-package org.website.steez.model;
+package org.website.steez.model.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.website.steez.model.ForgotPassword;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -40,6 +41,9 @@ public class User implements UserDetails, Serializable {
 
     @Column(name = "isAccountNonLocked", columnDefinition = "boolean default true")
     private boolean isAccountNonLocked;
+
+    @Column(name = "avatar")
+    private String avatar;
 
     @OneToOne(mappedBy = "user")
     private ForgotPassword forgotPassword;

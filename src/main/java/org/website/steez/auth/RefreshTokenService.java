@@ -3,12 +3,11 @@ package org.website.steez.auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.website.steez.exception.TokenRefreshException;
 import org.website.steez.model.RefreshToken;
-import org.website.steez.model.User;
+import org.website.steez.model.user.User;
 import org.website.steez.repository.RefreshTokenRepository;
 import org.website.steez.repository.UserRepository;
 
@@ -18,7 +17,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor

@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 import org.website.steez.dto.UserCreateEditDto;
-import org.website.steez.model.User;
+import org.website.steez.model.user.User;
 import org.website.steez.repository.RefreshTokenRepository;
 import org.website.steez.repository.UserRepository;
 import org.website.steez.service.UserService;

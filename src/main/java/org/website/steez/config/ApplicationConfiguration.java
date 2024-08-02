@@ -1,5 +1,6 @@
 package org.website.steez.config;
 
+import io.minio.MinioClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.website.steez.mapper.UserAvatarMapper;
+import org.website.steez.model.user.UserAvatar;
+import org.website.steez.properties.MinioProperties;
 import org.website.steez.repository.UserRepository;
 
 @Configuration
@@ -18,6 +22,7 @@ import org.website.steez.repository.UserRepository;
 public class ApplicationConfiguration {
 
     private final UserRepository userRepository;
+    private final MinioProperties minioProperties;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -37,6 +42,15 @@ public class ApplicationConfiguration {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
+    @Bean
+    public MinioClient minioClient() {
+        return new MinioClient.Builder()
+                .endpoint(minioProperties.getUrl())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

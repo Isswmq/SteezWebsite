@@ -17,8 +17,7 @@ import org.website.steez.auth.CustomAuthenticationEntryPoint;
 import org.website.steez.auth.CustomOAuth2UserService;
 import org.website.steez.auth.JwtAuthenticationFilter;
 import org.website.steez.auth.OAuth2Service;
-import org.website.steez.model.Role;
-import org.website.steez.repository.UserRepository;
+import org.website.steez.model.user.Role;
 import org.website.steez.service.UserService;
 
 @Configuration

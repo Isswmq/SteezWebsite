@@ -44,6 +44,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+
+	implementation 'io.minio:minio:8.5.10'
+
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -64,6 +73,10 @@ jar {
 	manifest {
 		attributes 'Main-Class': "org.website.steez.SteezApplication"
 	}
+}
+
+tasks.withType(JavaCompile) {
+	options.annotationProcessorPath = configurations.annotationProcessor
 }
 
 tasks.named('test') {

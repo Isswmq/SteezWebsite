@@ -1,6 +1,6 @@
 spring:
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   cache:
     type: redis
     cache-names: redis-cache
@@ -21,10 +21,6 @@ spring:
       host: ${REDIS_HOST}
       port: 6379
       password: ${REDIS_PASSWORD}
-
-  h2:
-    console:
-      enabled: true
 
   jpa:
     properties:
@@ -64,6 +60,15 @@ spring:
           auth: true
           starttls:
             enable: true
+  h2:
+    console:
+      enabled: true
+
+minio:
+  bucket: ${MINIO_BUCKET}
+  url: ${MINIO_URL}
+  accessKey: ${MINIO_ACCESS_KEY}
+  secretKey: ${MINIO_SECRET_KEY}
 
 logging:
   level:

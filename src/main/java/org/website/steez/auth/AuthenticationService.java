@@ -14,13 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.website.steez.exception.TokenRefreshException;
 import org.website.steez.exception.UserWithEmailAlreadyExistException;
-import org.website.steez.model.Role;
-import org.website.steez.model.User;
+import org.website.steez.model.user.Role;
+import org.website.steez.model.user.User;
 import org.website.steez.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
