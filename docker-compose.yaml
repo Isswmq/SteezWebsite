@@ -1,6 +1,7 @@
 version: '3.9'
 
 services:
+<<<<<<< HEAD
   steez-app:
     container_name: steez-app
     build:
@@ -15,6 +16,19 @@ services:
       - steez-network
     env_file:
       - .env
+=======
+#  steez-app:
+#    container_name: steez-app
+#    image: steez-website
+#    depends_on:
+#      - steez_postgres
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - steez-network
+#    env_file:
+#      - .env
+>>>>>>> 607e501 (fix docker-compose.yaml)
 
   steez_postgres:
     image: postgres:16
