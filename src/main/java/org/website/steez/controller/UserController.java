@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.website.steez.dto.UserAvatarDto;
-import org.website.steez.mapper.UserAvatarMapper;
+import org.website.steez.mapper.user.avatar.UserAvatarMapper;
 import org.website.steez.model.user.User;
 import org.website.steez.model.user.UserAvatar;
 import org.website.steez.security.ChangePasswordRequest;
