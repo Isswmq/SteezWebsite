@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Cacheable(value = "UserService::findById", key = "#id")
     public Optional<User> findById(Long id) {
+        log.debug("Attempting to find user by id: {}", id);
         return userRepository.findById(id);
     }
 
@@ -43,12 +44,14 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Cacheable(value = "UserService::findByEmail", key = "#email")
     public Optional<User> findByEmail(String email) {
+        log.debug("Attempting to find user by email: {}", email);
         return userRepository.findByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<User> findAll(Pageable pageable) {
+        log.debug("Attempting to find all users with pageable: {}", pageable);
         return userRepository.findAll(pageable);
     }
 
@@ -59,6 +62,7 @@ public class UserServiceImpl implements UserService {
             @CachePut(value = "UserService::findByEmail", key = "#result.email")
     })
     public User create(UserCreateEditDto userDto) {
+        log.debug("Attempting to create user with dto: {}", userDto);
         User user = User.builder()
                 .username(userDto.getUsername())
                 .email(userDto.getEmail())
@@ -66,6 +70,7 @@ public class UserServiceImpl implements UserService {
                 .role(Role.USER)
                 .isAccountNonLocked(true)
                 .build();
+        log.debug("Created user: {}", user);
         return userRepository.save(user);
     }
 
@@ -75,12 +80,15 @@ public class UserServiceImpl implements UserService {
             @CacheEvict(value = "UserService::findById", key = "#id"),
             @CacheEvict(value = "UserService::findByEmail", key = "#result.email")
     },
-            put =  @CachePut(value = "UserService::findById", key = "#id"))
+            put = @CachePut(value = "UserService::findById", key = "#id"))
     public void updateAccountLockStatusById(Long id, boolean isAccountNonLock) {
+        log.debug("Attempting to update account lock status for user with id: {} to {}", id, isAccountNonLock);
         if (!userRepository.existsById(id)) {
+            log.warn("User with ID {} not found", id);
             throw new UserNotFoundException("User with ID " + id + " not found");
         }
         userRepository.updateAccountLockStatusById(id, isAccountNonLock);
+        log.debug("Updated account lock status for user with id: {}", id);
     }
 
     @Override
@@ -90,25 +98,34 @@ public class UserServiceImpl implements UserService {
             @CachePut(value = "UserService::findByEmail", key = "#user.email")
     })
     public void changePassword(ChangePasswordRequest request, User user) {
+        log.debug("Attempting to change password for user: {}", user);
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            log.warn("Wrong current password for user: {}", user);
             throw new IllegalStateException("Wrong password");
         }
 
         if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            log.warn("New password and confirmation password do not match for user: {}", user);
             throw new IllegalStateException("Passwords are not the same");
         }
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+        log.debug("Changed password for user: {}", user);
     }
 
     @Override
     @Transactional
     @CacheEvict(value = "UserService::findById", key = "#id")
     public void uploadAvatar(Long id, UserAvatar avatar) {
-         User user = findById(id).orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
-         String fileName = userAvatarService.upload(avatar);
-         user.setAvatar(fileName);
-         userRepository.save(user);
+        log.debug("Attempting to upload avatar for user with id: {}", id);
+        User user = findById(id).orElseThrow(() -> {
+            log.warn("User with ID {} not found", id);
+            return new UserNotFoundException("User with ID " + id + " not found");
+        });
+        String fileName = userAvatarService.upload(avatar);
+        user.setAvatar(fileName);
+        userRepository.save(user);
+        log.debug("Uploaded avatar for user with id: {}", id);
     }
 }

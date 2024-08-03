@@ -3,6 +3,7 @@ package org.website.steez.auth;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -18,6 +19,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OAuth2Service {
 
     private final UserService userService;
@@ -35,17 +37,22 @@ public class OAuth2Service {
 
     public void handleOAuth2Login(OidcUser oidcUser, HttpServletResponse response) throws IOException {
         String email = oidcUser.getEmail();
+        log.debug("Handling OAuth2 login for OIDC user with email: {}", email);
         processOAuth2Login(email, response);
     }
 
     public void handleOAuth2Login(DefaultOAuth2User defaultOAuth2User, HttpServletResponse response) throws IOException {
         String email = defaultOAuth2User.getAttribute("email");
+        log.debug("Handling OAuth2 login for OAuth2 user with email: {}", email);
         processOAuth2Login(email, response);
     }
 
     private void processOAuth2Login(String email, HttpServletResponse response) throws IOException {
+        log.debug("Processing OAuth2 login for email: {}", email);
+
         User user = userService.findByEmail(email)
                 .orElseGet(() -> {
+                    log.debug("User not found, creating new user with email: {}", email);
                     UserCreateEditDto userCreateEditDto = UserCreateEditDto.builder()
                             .email(email)
                             .rawPassword(null)
@@ -53,15 +60,22 @@ public class OAuth2Service {
                     return userService.create(userCreateEditDto);
                 });
 
+        log.debug("Saving user: {}", user.getEmail());
         userRepository.save(user);
 
         String accessToken = jwtService.generateAccessToken(user);
+        log.debug("Generated access token for user: {}", user.getEmail());
+
         String refreshToken = refreshTokenService.generateRefreshToken(user);
+        log.debug("Generated refresh token for user: {}", user.getEmail());
 
         HttpHeaders headers = cookieUtil.createCookieHeaders(accessToken, refreshToken, accessTokenDurationMs, refreshTokenDurationMs);
+        log.debug("Created cookie headers for user: {}", user.getEmail());
 
         headers.forEach((key, values) -> values.forEach(value -> response.addHeader(key, value)));
 
+        log.debug("Redirecting user: {} to /api/v1/user/cabinet", user.getEmail());
         response.sendRedirect("/api/v1/user/cabinet");
     }
 }
+

@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.website.steez.auth.CustomAuthenticationEntryPoint;
+import org.website.steez.security.CustomAuthenticationEntryPoint;
 import org.website.steez.auth.CustomOAuth2UserService;
 import org.website.steez.auth.JwtAuthenticationFilter;
 import org.website.steez.auth.OAuth2Service;

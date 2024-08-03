@@ -3,6 +3,7 @@ package org.website.steez.auth;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationService {
     
     private final UserRepository userRepository;
@@ -46,6 +48,8 @@ public class AuthenticationService {
     private String refreshTokenName;
     
     public HttpHeaders register(RegisterRequest request) {
+        log.debug("Registering user with email: {}", request.getEmail());
+
         User userToBeRegistered = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail().toLowerCase())
@@ -55,17 +59,21 @@ public class AuthenticationService {
                 .build();
         
         if(userRepository.findByEmail(userToBeRegistered.getEmail().toLowerCase()).isPresent()) {
+            log.warn("User with email {} already exists", request.getEmail());
             throw new UserWithEmailAlreadyExistException();
         }
         
         User savedUser = userRepository.save(userToBeRegistered);
+        log.debug("User with email {} registered successfully", request.getEmail());
         String accessToken = jwtService.generateAccessToken(savedUser);
         String refreshToken = refreshTokenService.generateRefreshToken(savedUser);
-        
+
+        log.debug("Generated tokens for user with email: {}", request.getEmail());
         return createCookieHeaders(accessToken, refreshToken);
     }
     
     public HttpHeaders authenticate(AuthenticationRequest request) {
+        log.debug("Authenticating user with email: {}", request.getEmail());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail().toLowerCase(),
@@ -78,12 +86,15 @@ public class AuthenticationService {
         String accessToken = jwtService.generateAccessToken(loggedUser);
         String refreshToken = refreshTokenService.generateRefreshToken(loggedUser);
 
+        log.debug("Generated tokens for authenticated user with email: {}", request.getEmail());
         return createCookieHeaders(accessToken, refreshToken);
     }
     
     public HttpHeaders refresh(HttpServletRequest request) {
+        log.debug("Refreshing tokens");
         Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length == 0) {
+            log.warn("No cookies found for token refresh");
             throw new TokenRefreshException();
         }
         
@@ -91,15 +102,17 @@ public class AuthenticationService {
                 .filter(cookie -> cookie.getName().equals(refreshTokenName))
                 .findAny()
                 .orElseThrow(TokenRefreshException::new);
-        
+
+        log.debug("Refresh token found, refreshing tokens");
         return refreshTokenService.refreshTokens(requestRefreshToken.getValue());
     }
     
     public HttpHeaders logout(HttpServletRequest request) {
-        
+        log.debug("Logging out user");
         HttpHeaders logoutCookieHeaders = createLogoutCookieHeaders();
         
         if (request.getCookies() == null || request.getCookies().length == 0) {
+            log.debug("No cookies found for logout");
             return logoutCookieHeaders;
         }
         
@@ -108,6 +121,7 @@ public class AuthenticationService {
                 .findAny();
         
         if (accessCookie.isEmpty()) {
+            log.debug("No access token cookie found for logout");
             return logoutCookieHeaders;
         }
 
@@ -117,10 +131,12 @@ public class AuthenticationService {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
         if (!jwtService.isTokenValid(accessToken, userDetails)) {
+            log.warn("Invalid access token for user: {}", userEmail);
             return logoutCookieHeaders;
         }
 
         refreshTokenService.deleteRefreshTokenByUsername(userEmail);
+        log.debug("User {} logged out successfully", userEmail);
         return logoutCookieHeaders;
     }
 

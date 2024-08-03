@@ -73,8 +73,9 @@ minio:
 logging:
   level:
     org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    root: info
+    org.website.steez.service: DEBUG
+    org.website.steez.auth: DEBUG
+    root: INFO
   file:
     name: store.log
     path: /

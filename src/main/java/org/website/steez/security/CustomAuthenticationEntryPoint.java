@@ -1,4 +1,4 @@
-package org.website.steez.auth;
+package org.website.steez.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
