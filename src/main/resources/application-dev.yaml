@@ -30,3 +30,9 @@ spring:
       host: 192.168.68.105
       port: 6379
       password: ${REDIS_PASSWORD}
+
+minio:
+  bucket: ${MINIO_BUCKET}
+  url: 192.168.68.105
+  accessKey: ${MINIO_ACCESS_KEY}
+  secretKey: ${MINIO_SECRET_KEY}
