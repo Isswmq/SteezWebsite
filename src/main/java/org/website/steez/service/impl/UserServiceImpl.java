@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.website.steez.dto.UserCreateEditDto;
+import org.website.steez.dto.user.UserCreateEditDto;
 import org.website.steez.exception.UserNotFoundException;
 import org.website.steez.model.user.Role;
 import org.website.steez.model.user.User;

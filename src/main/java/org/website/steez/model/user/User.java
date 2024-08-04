@@ -12,7 +12,9 @@ import org.website.steez.model.ForgotPassword;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -44,6 +46,10 @@ public class User implements UserDetails, Serializable {
 
     @Column(name = "avatar")
     private String avatar;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Builder.Default
+    private Set<Address> addresses = new HashSet<>();
 
     @OneToOne(mappedBy = "user")
     private ForgotPassword forgotPassword;

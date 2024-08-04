@@ -1,4 +1,4 @@
-package org.website.steez.dto;
+package org.website.steez.dto.user;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

@@ -1,7 +1,7 @@
 package org.website.steez.mapper.user.avatar;
 
 import org.springframework.stereotype.Component;
-import org.website.steez.dto.UserAvatarDto;
+import org.website.steez.dto.user.UserAvatarDto;
 import org.website.steez.model.user.UserAvatar;
 
 @Component

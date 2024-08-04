@@ -1,7 +1,7 @@
 package org.website.steez.service;
 
 import org.springframework.data.domain.Pageable;
-import org.website.steez.dto.UserCreateEditDto;
+import org.website.steez.dto.user.UserCreateEditDto;
 import org.website.steez.model.user.User;
 import org.website.steez.model.user.UserAvatar;
 import org.website.steez.security.ChangePasswordRequest;
