@@ -1,6 +1,8 @@
 package org.website.steez.config;
 
 import io.minio.MinioClient;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,9 +51,18 @@ public class ApplicationConfiguration {
                 .build();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI().info(
+                new Info()
+                        .title("Steez Website")
+                        .description("Wear shop Steez Website")
+                        .version("1.0")
+        );
     }
 }

@@ -1,5 +1,6 @@
 package org.website.steez.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +17,7 @@ import org.website.steez.model.user.UserAvatar;
 import org.website.steez.security.ChangePasswordRequest;
 import org.website.steez.service.UserService;
 
+@Tag(name = "User Controller", description = "User API")
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor

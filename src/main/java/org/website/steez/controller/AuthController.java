@@ -1,5 +1,6 @@
 package org.website.steez.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.website.steez.auth.AuthenticationRequest;
 import org.website.steez.auth.AuthenticationService;
 import org.website.steez.auth.RegisterRequest;
 
+@Tag(name = "Auth Controller", description = "Auth API")
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor

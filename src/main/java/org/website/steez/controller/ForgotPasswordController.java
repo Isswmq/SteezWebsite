@@ -1,5 +1,6 @@
 package org.website.steez.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Random;
 
+@Tag(name = "Forgot Password Controller",description = "Forgot Password API")
 @RestController
 @RequestMapping("/api/v1/forgotPassword")
 @RequiredArgsConstructor

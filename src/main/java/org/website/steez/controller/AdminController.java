@@ -1,5 +1,6 @@
 package org.website.steez.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.website.steez.service.UserService;
 
 import java.util.List;
 
+@Tag(name = "Admin Controller", description = "Admin API")
 @RestController
 @RequestMapping("/api/v1/admin")
 @PreAuthorize("hasRole('ADMIN')")
