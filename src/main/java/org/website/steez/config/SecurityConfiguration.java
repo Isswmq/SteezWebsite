@@ -13,12 +13,17 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.website.steez.security.CustomAuthenticationEntryPoint;
 import org.website.steez.auth.CustomOAuth2UserService;
 import org.website.steez.auth.JwtAuthenticationFilter;
 import org.website.steez.auth.OAuth2Service;
 import org.website.steez.model.user.Role;
 import org.website.steez.service.UserService;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +39,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(config -> config.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/admin/**").hasAuthority(Role.ADMIN.name())
                         .requestMatchers("/api/v1/auth/register", "/api/v1/auth/authenticate",
@@ -64,5 +69,15 @@ public class SecurityConfiguration {
                 throw new IllegalArgumentException("Unexpected principal type: " + principal.getClass());
             }
         };
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
