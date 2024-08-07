@@ -21,7 +21,6 @@ import org.website.steez.auth.CustomOAuth2UserService;
 import org.website.steez.auth.JwtAuthenticationFilter;
 import org.website.steez.auth.OAuth2Service;
 import org.website.steez.model.user.Role;
-import org.website.steez.service.UserService;
 
 import java.util.Arrays;
 
@@ -29,7 +28,6 @@ import java.util.Arrays;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    private final UserService userService;
     private final OAuth2Service oAuth2Service;
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
