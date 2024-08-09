@@ -1,6 +1,6 @@
 spring:
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   cache:
     type: redis
     cache-names: redis-cache

@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.website.steez.model.user.Role;
 import org.website.steez.model.user.User;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class UserRepositoryTest {
         User user = User.builder()
                 .id(1L)
                 .username("steez")
+                .email("steezhack@gmail.com")
+                .role(Role.USER)
                 .isAccountNonLocked(true)
                 .build();
 
@@ -54,8 +57,10 @@ public class UserRepositoryTest {
     @DirtiesContext
     public void UserRepository_findAll_ReturnMoreThenOneUser() {
         User user = User.builder().id(1L).username("steez").isAccountNonLocked(true)
+                .email("steezhack1@gmail.com").role(Role.USER)
                 .build();
         User user2 = User.builder().id(2L).username("steez2").isAccountNonLocked(true)
+                .email("steezhack2@gmail.com").role(Role.USER)
                 .build();
 
         userRepository.save(user);
@@ -77,7 +82,8 @@ public class UserRepositoryTest {
     @Test
     @DirtiesContext
     public void UserRepository_findByEmail_ReturnOptionalUser() {
-        User user = User.builder().id(1L).email("steez@gmail.com").isAccountNonLocked(true)
+        User user = User.builder().id(1L).username("steezhack").isAccountNonLocked(true)
+                .email("steezhack1@gmail.com").role(Role.USER)
                 .build();
 
         userRepository.save(user);
@@ -100,6 +106,7 @@ public class UserRepositoryTest {
     @DirtiesContext
     public void UserRepository_updateAccountLockStatusById_ReturnBlockedUser() {
         User user = User.builder().id(1L).email("steez@gmail.com").isAccountNonLocked(true)
+                .username("steezhack1").role(Role.USER)
                 .build();
         userRepository.save(user);
 
@@ -118,6 +125,7 @@ public class UserRepositoryTest {
     @DirtiesContext
     public void UserRepository_updateAccountLockStatusById_ReturnUnblockUser() {
         User user = User.builder().id(1L).email("steez@gmail.com").isAccountNonLocked(false)
+                .username("steezhack1").role(Role.USER)
                 .build();
         userRepository.save(user);
 
@@ -136,6 +144,7 @@ public class UserRepositoryTest {
     @DirtiesContext
     public void UserRepository_updatePassword_ReturnUserWithNewPassword() {
         User user = User.builder().id(1L).email("steez@gmail.com").isAccountNonLocked(true)
+                .username("steezhack").role(Role.USER)
                 .password("weakPassword1337")
                 .build();
 

@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "user_address")
+@Table(name = "address")
 public class Address {
 
     @Id
@@ -31,7 +31,7 @@ public class Address {
     @Column(name = "state", nullable = false)
     private String state;
 
-    @Column(name = "portal_code", nullable = false)
+    @Column(name = "postal_code", nullable = false)
     private String postalCode;
 
     @Column(name = "country", nullable = false)

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(32) NOT NULL,
     email VARCHAR(32) NOT NULL UNIQUE,
-    password VARCHAR(64) NOT NULL,
+    password VARCHAR(64),
     role VARCHAR(32) NOT NULL,
     is_account_non_locked BOOLEAN DEFAULT TRUE,
     avatar VARCHAR(64)

@@ -3,7 +3,8 @@ version: '3.9'
 services:
   steez-app:
     container_name: steez-app
-    image: steez-website
+    build:
+      context: .
     depends_on:
       - steez_postgres
       - redis
@@ -28,6 +29,7 @@ services:
       - steez-db:/var/lib/postgresql/data
     networks:
       - steez-network
+
   redis:
     image: redis:7.2-rc-alpine
     restart: always
@@ -37,6 +39,8 @@ services:
     command: ["redis-server", "--save", "20", "1", "--loglevel", "warning", "--requirepass", "${REDIS_PASSWORD}"]
     volumes:
       - cache:/data
+    networks:
+      - steez-network
 
   minio:
     image: minio/minio
@@ -50,6 +54,8 @@ services:
       - "9000:9000"
     volumes:
       - minio-data:/minio
+    networks:
+      - steez-network
 
 volumes:
   steez-db:
