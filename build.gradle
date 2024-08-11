@@ -4,14 +4,13 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
+apply from: 'version.gradle'
 group = 'org.steez'
 version = '0.1'
 
 java {
 	sourceCompatibility = "17"
 }
-
-
 
 configurations {
 	compileOnly {
@@ -21,12 +20,6 @@ configurations {
 
 repositories {
 	mavenCentral()
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.3"
-	}
 }
 
 dependencies {
@@ -41,24 +34,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.liquibase:liquibase-core'
 
-	implementation 'io.minio:minio:8.5.10'
+	implementation "io.minio:minio:${versions.minio}"
 
 	implementation 'org.postgresql:postgresql'
 
-	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0"
+	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.openapi}"
 
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-
+	implementation "io.jsonwebtoken:jjwt-api:${versions.jsonwebtoken}"
+	implementation "io.jsonwebtoken:jjwt-impl:${versions.jsonwebtoken}"
+	implementation "io.jsonwebtoken:jjwt-jackson:${versions.jsonwebtoken}"
 
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-
 
 	compileOnly 'org.projectlombok:lombok'
 
@@ -66,7 +54,7 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-	testImplementation 'com.h2database:h2:2.3.230'
+	testImplementation "com.h2database:h2:${versions.h2}"
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
 }
