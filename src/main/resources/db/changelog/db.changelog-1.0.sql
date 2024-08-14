@@ -2,7 +2,7 @@
 
 --changeset isswmq:1
 CREATE TABLE IF NOT EXISTS users(
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     username VARCHAR(32) NOT NULL,
     email VARCHAR(32) NOT NULL UNIQUE,
     password VARCHAR(64),
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users(
 --changeset isswmq:2
 CREATE TABLE IF NOT EXISTS address(
     id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id BIGINT NOT NULL,
     street VARCHAR(64) NOT NULL,
     city VARCHAR(64) NOT NULL,
     state VARCHAR(64) NOT NULL,
@@ -33,6 +33,6 @@ CREATE TABLE IF NOT EXISTS forgot_password(
     id SERIAL PRIMARY KEY,
     otp INT NOT NULL,
     expiration_time TIMESTAMP NOT NULL,
-    user_id INT,
+    user_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );

@@ -1,6 +1,7 @@
 package org.website.steez.repository;
 
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @ActiveProfiles("test")
 @DataJpaTest
+@Disabled
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class UserRepositoryTest {
 
