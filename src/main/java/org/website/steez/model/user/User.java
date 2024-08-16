@@ -41,8 +41,8 @@ public class User implements UserDetails, Serializable {
     @Column(name = "role")
     private Role role;
 
-    @Column(name = "isAccountNonLocked", columnDefinition = "boolean default true")
-    private boolean isAccountNonLocked;
+    @Column(name = "is_account_non_locked", columnDefinition = "boolean default true")
+    private Boolean isAccountNonLocked;
 
     @Column(name = "avatar")
     private String avatar;
