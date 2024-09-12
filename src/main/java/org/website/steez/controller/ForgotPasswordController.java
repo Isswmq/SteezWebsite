@@ -59,8 +59,7 @@ public class ForgotPasswordController {
         User user = userRepository.findByEmail(email).
                 orElseThrow(() -> new UserNotFoundException("Please provide a valid email"));
 
-
-        ForgotPassword forgotPassword = forgotPasswordRepository.findByOtpAndUserAnd(otp, user)
+        ForgotPassword forgotPassword = forgotPasswordRepository.findByOtpAndUser(otp, user)
                 .orElseThrow(() -> new RuntimeException("Invalid OTP for email: " + email));
 
         if (forgotPassword.getExpirationTime().before(Date.from(Instant.now()))) {
