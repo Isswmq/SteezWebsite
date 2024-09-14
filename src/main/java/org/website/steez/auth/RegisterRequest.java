@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 @Data
 @Builder
@@ -14,13 +13,15 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 public class RegisterRequest {
 
+    @NotEmpty(message = "Username must not be empty.")
     private String username;
 
-    @NotEmpty
+    @NotEmpty(message = "Email must not be empty.")
+    @Pattern(regexp = "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$", message = "Email should be valid.")
     private String email;
 
-    @NotEmpty
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")
-    @Length(min = 8)
+    @NotEmpty(message = "Password must not be empty.")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$",
+            message = "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one digit.")
     private String password;
 }
