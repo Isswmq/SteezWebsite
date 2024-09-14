@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.website.steez.dto.user.UserAvatarDto;
 import org.website.steez.dto.user.UserCabinetDto;
 import org.website.steez.mapper.user.avatar.UserAvatarMapper;
@@ -16,6 +17,8 @@ import org.website.steez.model.user.User;
 import org.website.steez.model.user.UserAvatar;
 import org.website.steez.security.ChangePasswordRequest;
 import org.website.steez.service.UserService;
+
+import java.util.Arrays;
 
 
 @RestController
@@ -28,6 +31,9 @@ public class UserController {
     private final UserAvatarMapper userAvatarMapper;
     private final UserCabinetMapper userCabinetMapper;
 
+    private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
+    private static final String[] ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/gif"};
+
     @GetMapping("/cabinet")
     @PreAuthorize("hasRole('USER')")
     public UserCabinetDto getUserInfo(@AuthenticationPrincipal User principalUser) {
@@ -38,16 +44,32 @@ public class UserController {
 
     @PatchMapping("/change-password")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request, @AuthenticationPrincipal User user) {
+    public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordRequest request, @AuthenticationPrincipal User user) {
         userService.changePassword(request, user);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/upload-avatar")
     @PreAuthorize("hasRole('USER')")
-    public void uploadAvatar(@AuthenticationPrincipal User user,
+    public ResponseEntity<String> uploadAvatar(@AuthenticationPrincipal User user,
                              @Validated @ModelAttribute UserAvatarDto avatarDto) {
+        MultipartFile file = avatarDto.getFile();
+
+        if (file == null || file.isEmpty()) {
+            return ResponseEntity.badRequest().body("File must not be empty.");
+        }
+        System.err.println(file.getContentType());
+        if (file.getSize() > MAX_FILE_SIZE) {
+            return ResponseEntity.badRequest().body("File size exceeds the maximum limit of 5MB.");
+        }
+
+        if (!Arrays.asList(ALLOWED_CONTENT_TYPES).contains(file.getContentType())) {
+            return ResponseEntity.badRequest().body("Unsupported file type.");
+        }
+
         UserAvatar avatar = userAvatarMapper.toEntity(avatarDto);
         userService.uploadAvatar(user.getId(), avatar);
+
+        return ResponseEntity.ok("Avatar upload successfully");
     }
 }
