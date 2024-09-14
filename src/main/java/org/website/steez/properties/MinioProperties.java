@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "minio")
 public class MinioProperties {
-
     private String bucket;
     private String url;
     private String accessKey;
