@@ -26,7 +26,7 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "sku", nullable = false)
+    @Column(name = "sku", nullable = false, unique = true)
     private String sku;
 
     @Enumerated(EnumType.STRING)

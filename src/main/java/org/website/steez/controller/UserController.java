@@ -17,10 +17,11 @@ import org.website.steez.model.user.UserAvatar;
 import org.website.steez.security.ChangePasswordRequest;
 import org.website.steez.service.UserService;
 
-@Tag(name = "User Controller", description = "User API")
+
 @RestController
-@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/user")
+@Tag(name = "User Controller", description = "User API")
 public class UserController {
 
     private final UserService userService;

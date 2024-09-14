@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS products(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(64) NOT NULL,
     description TEXT,
-    sku VARCHAR(64) NOT NULl,
+    sku VARCHAR(64) UNIQUE NOT NULL,
     category VARCHAR(64) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     discount_id INTEGER,
