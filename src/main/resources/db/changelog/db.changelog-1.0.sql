@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS forgot_password(
 --changeset isswmq:5
 CREATE TABLE IF NOT EXISTS discounts(
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
     description TEXT,
     discount_percent INTEGER NOT NULL CHECK (discount_percent >= 1 and discount_percent <= 99)
 );

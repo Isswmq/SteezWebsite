@@ -16,4 +16,6 @@ public interface ProductService {
     Product create(ProductCreateEditDto dto);
 
     Optional<Product> findBySku(String sku);
+
+    Product applyDiscount(String productSku, String discountName);
 }

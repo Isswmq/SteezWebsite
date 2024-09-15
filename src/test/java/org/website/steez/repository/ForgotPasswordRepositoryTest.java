@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.Date;
 import java.util.Optional;
 
-@ActiveProfiles("test")
 @DataJpaTest
+@ActiveProfiles("test")
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class ForgotPasswordRepositoryTest {
 
