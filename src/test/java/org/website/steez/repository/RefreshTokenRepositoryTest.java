@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.website.steez.model.RefreshToken;
 
@@ -23,7 +22,6 @@ public class RefreshTokenRepositoryTest {
     private RefreshTokenRepository refreshTokenRepository;
 
     @Test
-    @DirtiesContext
     public void RefreshTokenRepository_findByToken_ShouldReturnOptionalRefreshTokenWhenTokenExists() {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUsername("steez");
@@ -37,7 +35,6 @@ public class RefreshTokenRepositoryTest {
     }
 
     @Test
-    @DirtiesContext
     public void RefreshTokenRepository_findByToken_ShouldReturnEmptyOptionalWhenTokenNotFound() {
         String nonExistentToken = UUID.randomUUID().toString();
         Optional<RefreshToken> maybeRefreshToken = refreshTokenRepository.findByToken(nonExistentToken);
@@ -45,7 +42,6 @@ public class RefreshTokenRepositoryTest {
     }
 
     @Test
-    @DirtiesContext
     public void RefreshTokenRepository_findByToken_ShouldReturnEmptyOptionalWhenTokenIsCaseSensitive() {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUsername("steez");
@@ -59,14 +55,12 @@ public class RefreshTokenRepositoryTest {
     }
 
     @Test
-    @DirtiesContext
     public void RefreshTokenRepository_findByToken_ShouldReturnEmptyOptionalWhenTokenIsNull() {
         Optional<RefreshToken> maybeRefreshToken = refreshTokenRepository.findByToken(null);
         assertThat(maybeRefreshToken).isEmpty();
     }
 
     @Test
-    @DirtiesContext
     public void RefreshTokenRepository_deleteByUsername_ShouldDeleteRefreshTokenByUsername(){
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUsername("steez");
@@ -85,7 +79,6 @@ public class RefreshTokenRepositoryTest {
     }
 
     @Test
-    @DirtiesContext
     public void RefreshTokenRepository_deleteByUsername_ShouldDoNothingWhenUsernameDoesNotExistDuringDelete() {
         refreshTokenRepository.deleteByUsername("nonexistentUser");
 
@@ -101,7 +94,6 @@ public class RefreshTokenRepositoryTest {
     }
 
     @Test
-    @DirtiesContext
     public void RefreshTokenRepository_deleteByUsername_ShouldNotDeleteAnythingWhenUsernameIsNull() {
         refreshTokenRepository.deleteByUsername(null);
 

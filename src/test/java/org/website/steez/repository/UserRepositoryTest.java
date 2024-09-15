@@ -15,8 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
-@ActiveProfiles("test")
+
 @DataJpaTest
+@ActiveProfiles("test")
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class UserRepositoryTest {
 

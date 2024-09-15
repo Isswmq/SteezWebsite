@@ -28,7 +28,6 @@ public class ForgotPasswordRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    @DirtiesContext
     public void ForgotPasswordRepository_findByOtpAndUser_ReturnOptionalForgotPassword() {
         User user = User.builder()
                 .id(1L)
