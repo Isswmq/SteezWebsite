@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.website.steez.dto.product.DiscountCreateEditDto;
 import org.website.steez.dto.product.DiscountViewDto;
@@ -38,6 +39,7 @@ public class DiscountController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<DiscountViewDto> createDiscount(@Valid @RequestBody DiscountCreateEditDto dto) {
         Discount discount = discountService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED)

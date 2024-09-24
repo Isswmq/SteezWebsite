@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import org.website.steez.model.product.Category;
 import org.website.steez.model.product.Discount;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductViewDto {
+public class ProductViewDto implements Serializable {
     private String name;
     private String sku;
     private Category category;

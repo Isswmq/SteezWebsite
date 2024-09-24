@@ -1,4 +1,4 @@
-package org.website.steez.security;
+package org.website.steez.controller.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChangeForgotPasswordRequest {
+public class ChangePasswordRequest {
+    private String currentPassword;
     private String newPassword;
     private String confirmationPassword;
 }

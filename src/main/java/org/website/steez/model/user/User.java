@@ -1,5 +1,6 @@
 package org.website.steez.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,6 +54,9 @@ public class User implements UserDetails, Serializable {
 
     @OneToOne(mappedBy = "user")
     private ForgotPassword forgotPassword;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ShoppingSession shoppingSession;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

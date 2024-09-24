@@ -16,7 +16,7 @@ import org.website.steez.model.user.Role;
 import org.website.steez.model.user.User;
 import org.website.steez.model.user.UserAvatar;
 import org.website.steez.repository.UserRepository;
-import org.website.steez.security.ChangePasswordRequest;
+import org.website.steez.controller.request.ChangePasswordRequest;
 import org.website.steez.service.UserAvatarService;
 import org.website.steez.service.UserService;
 

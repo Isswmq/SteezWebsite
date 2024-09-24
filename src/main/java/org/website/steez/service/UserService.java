@@ -4,7 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.website.steez.dto.user.UserCreateEditDto;
 import org.website.steez.model.user.User;
 import org.website.steez.model.user.UserAvatar;
-import org.website.steez.security.ChangePasswordRequest;
+import org.website.steez.controller.request.ChangePasswordRequest;
 
 import java.util.List;
 import java.util.Optional;

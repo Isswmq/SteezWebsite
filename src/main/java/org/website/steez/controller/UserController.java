@@ -15,7 +15,7 @@ import org.website.steez.mapper.user.avatar.UserAvatarMapper;
 import org.website.steez.mapper.user.cabinet.UserCabinetMapper;
 import org.website.steez.model.user.User;
 import org.website.steez.model.user.UserAvatar;
-import org.website.steez.security.ChangePasswordRequest;
+import org.website.steez.controller.request.ChangePasswordRequest;
 import org.website.steez.service.UserService;
 
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public class UserController {
     private static final String[] ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/gif"};
 
     @GetMapping("/cabinet")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public UserCabinetDto getUserInfo(@AuthenticationPrincipal User principalUser) {
         User user =  userService.findById(principalUser.getId())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -43,14 +43,14 @@ public class UserController {
     }
 
     @PatchMapping("/change-password")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordRequest request, @AuthenticationPrincipal User user) {
         userService.changePassword(request, user);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/upload-avatar")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<String> uploadAvatar(@AuthenticationPrincipal User user,
                              @Validated @ModelAttribute UserAvatarDto avatarDto) {
         MultipartFile file = avatarDto.getFile();
@@ -58,7 +58,7 @@ public class UserController {
         if (file == null || file.isEmpty()) {
             return ResponseEntity.badRequest().body("File must not be empty.");
         }
-        System.err.println(file.getContentType());
+
         if (file.getSize() > MAX_FILE_SIZE) {
             return ResponseEntity.badRequest().body("File size exceeds the maximum limit of 5MB.");
         }

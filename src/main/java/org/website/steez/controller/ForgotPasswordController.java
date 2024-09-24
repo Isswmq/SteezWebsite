@@ -12,7 +12,7 @@ import org.website.steez.model.ForgotPassword;
 import org.website.steez.model.user.User;
 import org.website.steez.repository.ForgotPasswordRepository;
 import org.website.steez.repository.UserRepository;
-import org.website.steez.security.ChangeForgotPasswordRequest;
+import org.website.steez.controller.request.ChangeForgotPasswordRequest;
 import org.website.steez.service.EmailService;
 
 import java.time.Instant;
