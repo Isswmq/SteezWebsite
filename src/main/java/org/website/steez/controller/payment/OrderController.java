@@ -34,7 +34,7 @@ public class OrderController {
     private final OrderDetailsViewMapper orderDetailsViewMapper;
 
     @PostMapping("/payment/create")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<?> createOrder(@AuthenticationPrincipal User principalUser) {
 
         OrderDetails order = orderService.createOrder(userOrderMapper.toDto(principalUser));
@@ -61,7 +61,7 @@ public class OrderController {
     }
 
     @PostMapping("/payment/{paymentIntentId}/confirm")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<?> confirmPayment(@PathVariable String paymentIntentId,
                                             @RequestBody ConfirmPaymentRequest request) {
         PaymentIntent paymentIntent;
@@ -85,7 +85,7 @@ public class OrderController {
     }
 
     @GetMapping("/payment/success")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<String> success(){
         return ResponseEntity.ok("Payment succeeded");
     }

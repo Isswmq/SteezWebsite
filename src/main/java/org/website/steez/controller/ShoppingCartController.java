@@ -28,7 +28,7 @@ public class ShoppingCartController {
     private final CartItemViewMapper cartItemViewMapper;
 
     @GetMapping()
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<List<CartItemViewDto>> viewCart(@AuthenticationPrincipal User principalUser) {
         User user = userService.findById(principalUser.getId())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -37,7 +37,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<String> addToCart(@AuthenticationPrincipal User principalUser,@Validated @RequestBody CartRequest request) {
         User user =  userService.findById(principalUser.getId())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -46,7 +46,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/update")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<String> updateQuantity(@AuthenticationPrincipal User principalUser, @Validated @RequestBody CartRequest request) {
         User user =  userService.findById(principalUser.getId())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -55,7 +55,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/remove")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<String> removeFromCart(@AuthenticationPrincipal User principalUser, @RequestBody CartRequest request) {
         User user =  userService.findById(principalUser.getId())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));

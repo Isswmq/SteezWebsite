@@ -35,7 +35,7 @@ public class UserController {
     private static final String[] ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/gif"};
 
     @GetMapping("/cabinet")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public UserCabinetDto getUserInfo(@AuthenticationPrincipal User principalUser) {
         User user =  userService.findById(principalUser.getId())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -43,14 +43,14 @@ public class UserController {
     }
 
     @PatchMapping("/change-password")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordRequest request, @AuthenticationPrincipal User user) {
         userService.changePassword(request, user);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/upload-avatar")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<String> uploadAvatar(@AuthenticationPrincipal User user,
                              @Validated @ModelAttribute UserAvatarDto avatarDto) {
         MultipartFile file = avatarDto.getFile();

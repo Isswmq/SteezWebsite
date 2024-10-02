@@ -39,7 +39,7 @@ public class DiscountController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<DiscountViewDto> createDiscount(@Valid @RequestBody DiscountCreateEditDto dto) {
         Discount discount = discountService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED)

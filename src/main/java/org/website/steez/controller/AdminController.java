@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/v1/admin")
 @Tag(name = "Admin Controller", description = "Admin API")
 public class AdminController {
@@ -22,27 +22,27 @@ public class AdminController {
     private final UserService userService;
 
     @GetMapping("/users")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<User> getAllUsers() {
         Pageable pageable = PageRequest.of(0, 20);
         return userService.findAll(pageable);
     }
 
     @GetMapping("/user/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User getUser(@PathVariable Long id) {
         return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 
     @PutMapping("/lock/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User blockUser(@PathVariable Long id) {
         userService.updateAccountLockStatusById(id, false);
         return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 
     @PutMapping("/unlock/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User unlockUser(@PathVariable Long id) {
         userService.updateAccountLockStatusById(id, true);
         return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
