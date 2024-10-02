@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface ShoppingSessionRepository extends JpaRepository<ShoppingSession, Long> {
 
     Optional<ShoppingSession> findByUser(User user);
+
+    Optional<ShoppingSession> findByUserId(Long userId);
 }

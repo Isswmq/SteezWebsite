@@ -12,36 +12,37 @@ import org.website.steez.service.UserService;
 
 import java.util.List;
 
-@Tag(name = "Admin Controller", description = "Admin API")
 @RestController
-@RequestMapping("/api/v1/admin")
-@PreAuthorize("hasRole('ADMIN')")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
+@RequestMapping("/api/v1/admin")
+@Tag(name = "Admin Controller", description = "Admin API")
 public class AdminController {
 
     private final UserService userService;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getAllUsers() {
         Pageable pageable = PageRequest.of(0, 20);
         return userService.findAll(pageable);
     }
 
     @GetMapping("/user/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public User getUser(@PathVariable Long id) {
         return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/lock/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public User blockUser(@PathVariable Long id) {
         userService.updateAccountLockStatusById(id, false);
         return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/unlock/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public User unlockUser(@PathVariable Long id) {
         userService.updateAccountLockStatusById(id, true);
         return userService.findById(id).orElseThrow(() -> new UserNotFoundException("user not found"));

@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.website.steez.properties.MinioProperties;
 import org.website.steez.repository.UserRepository;
 
 @Configuration
@@ -22,7 +21,7 @@ import org.website.steez.repository.UserRepository;
 public class ApplicationConfiguration {
 
     private final UserRepository userRepository;
-    private final MinioProperties minioProperties;
+    private final MinioConfiguration minioProperties;
 
     @Bean
     public UserDetailsService userDetailsService() {

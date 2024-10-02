@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.website.steez.controller.request.ApplyDiscountRequest;
 import org.website.steez.dto.product.ProductCreateEditDto;
@@ -39,6 +40,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductViewDto> createProduct(@Valid @RequestBody ProductCreateEditDto productDto) {
         Product product = productService.create(productDto);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -46,6 +48,7 @@ public class ProductController {
     }
 
     @PostMapping("/sku/{sku}/apply-discount")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductViewDto> applyDiscount(@PathVariable String sku, @Valid @RequestBody ApplyDiscountRequest request) {
         Product product = productService.applyDiscount(sku, request.getDiscountName());
         return ResponseEntity.ok(productViewMapper.toDto(product));

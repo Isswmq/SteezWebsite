@@ -52,6 +52,8 @@ dependencies {
 
 	annotationProcessor 'org.projectlombok:lombok'
 
+	implementation "com.stripe:stripe-java:${versions.stripe}"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation "com.h2database:h2:${versions.h2}"

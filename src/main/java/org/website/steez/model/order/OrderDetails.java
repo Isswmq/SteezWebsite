@@ -1,10 +1,7 @@
 package org.website.steez.model.order;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.website.steez.model.user.User;
 
 import java.math.BigDecimal;
@@ -17,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "order_details")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class OrderDetails {
 
     @Id

@@ -19,10 +19,11 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Random;
 
-@Tag(name = "Forgot Password Controller",description = "Forgot Password API")
+
 @RestController
-@RequestMapping("/api/v1/forgotPassword")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/forgotPassword")
+@Tag(name = "Forgot Password Controller",description = "Forgot Password API")
 public class ForgotPasswordController {
 
     private final UserRepository userRepository;

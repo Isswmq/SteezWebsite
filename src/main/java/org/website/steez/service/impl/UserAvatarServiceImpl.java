@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.website.steez.exception.ImageUploadException;
 import org.website.steez.model.user.UserAvatar;
-import org.website.steez.properties.MinioProperties;
+import org.website.steez.config.MinioConfiguration;
 import org.website.steez.service.UserAvatarService;
 
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class UserAvatarServiceImpl implements UserAvatarService {
 
     private final MinioClient minioClient;
-    private final MinioProperties minioProperties;
+    private final MinioConfiguration minioProperties;
 
     @Override
     public String upload(UserAvatar avatar) {

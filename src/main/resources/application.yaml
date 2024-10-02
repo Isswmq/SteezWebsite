@@ -88,3 +88,6 @@ server:
     key-store-type: ${SSL_KEY_STORE_TYPE}
     key-password: ${SSL_KEY_PASSWORD}
     key-store-password: ${SSL_KEY_STORE_PASSWORD}
+stripe:
+  privateKey: ${STRIPE_PRIVATE_KEY}
+  publicKey: ${STRIPE_PUBLIC_KEY}
