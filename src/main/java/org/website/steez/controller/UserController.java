@@ -20,7 +20,6 @@ import org.website.steez.service.UserService;
 
 import java.util.Arrays;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")

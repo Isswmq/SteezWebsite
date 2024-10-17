@@ -7,7 +7,7 @@ import org.website.steez.model.order.OrderDetails;
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends JpaRepository<OrderDetails, Long> {
+public interface OrderRepository extends JpaRepository<OrderDetails, Integer> {
 
     List<OrderDetails> findByUserId(Long userId);
 }

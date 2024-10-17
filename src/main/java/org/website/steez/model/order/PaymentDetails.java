@@ -20,8 +20,8 @@ public class PaymentDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "order_id", nullable = false)
-    private Integer orderId;
+//    @Column(name = "order_id", nullable = false)
+//    private Integer orderId;
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
@@ -32,6 +32,6 @@ public class PaymentDetails {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @OneToOne(mappedBy = "paymentDetails", fetch = FetchType.LAZY)
-    private OrderDetails orderDetails;
+//    @OneToOne(mappedBy = "paymentDetails", fetch = FetchType.LAZY)
+//    private OrderDetails orderDetails;
 }

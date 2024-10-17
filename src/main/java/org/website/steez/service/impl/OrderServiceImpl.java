@@ -57,7 +57,6 @@ public class OrderServiceImpl implements OrderService {
                 .amount(totalAmount)
                 .provider("STRIPE")
                 .status("pending")
-                .orderId(savedOrder.getId())
                 .build();
 
         paymentRepository.save(paymentDetails);
