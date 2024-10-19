@@ -1,7 +1,5 @@
 package org.website.steez.repository;
 
-import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -29,9 +27,6 @@ public class OrderRepositoryTest {
     private OrderRepository orderRepository;
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Test
     @DirtiesContext

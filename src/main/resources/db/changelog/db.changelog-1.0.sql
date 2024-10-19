@@ -78,7 +78,6 @@ CREATE TABLE IF NOT EXISTS cart_items(
 --changeset isswmq:9
 CREATE TABLE IF NOT EXISTS payment_details(
     id SERIAL PRIMARY KEY,
-    /*order_id INT NOT NULL,*/
     amount DECIMAL(10, 2) NOT NULL,
     provider VARCHAR(64) NOT NULL,
     status VARCHAR(32) NOT NULL
